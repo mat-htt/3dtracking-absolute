@@ -2,11 +2,17 @@
 
 Hackathon task from Peleng: find the real-world 3D position of a moving truck using five fixed cameras with known calibration. The answer must be produced **online** — every frame is processed using only the current and past frames, as a real system would work.
 
-<img src="docs/media/demo.gif" alt="Top view with ground truth (green) and online 3D track (red), five camera feeds with detections" width="100%">
+<img src="docs/media/demo.gif" alt="Way1: five cameras with the projected truck model and speed" width="100%">
+
+*Way1, five cameras: green frame — the camera sees the truck (model projection and mask), yellow — the truck is out of view and its position is predicted. Speed in the top right corner.*
 
 **Pipeline:** YOLO detection and SAM 2 masks in each camera → rays from calibrated cameras → multi-camera triangulation and fitting of the truck's metric CAD model → Kalman filtering of the trajectory → speed and position for every frame. A web player replays the result next to the video.
 
 <img src="docs/media/cad_overlay.jpg" alt="CAD model silhouette fitted to the truck in four cameras" width="100%">
+
+<img src="docs/media/way2.gif" alt="Way2 validation set: nine cameras, dust and occlusions" width="100%">
+
+*Way2 validation set, nine cameras with dust and occlusions: OBSERVED — the camera sees the truck, PREDICTED — position from the motion model.*
 
 **Result on the Way1 sequence:** MAE 2.46 m over 999 frames, coordinates on every frame, error under 1 m on 282 frames.
 
